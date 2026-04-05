@@ -5,7 +5,10 @@ module.exports = {
   entry: './src/index.js',
   mode: 'development',
   devServer: {
-    port: 3000,
+    port: 3002,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
   },
   module: {
     rules: [
@@ -24,10 +27,10 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'host',
-      remotes: {
-        remote: 'remote@http://localhost:3001/remoteEntry.js',
-        remote2: 'remote2@http://localhost:3002/remoteEntry.js',
+      name: 'remote2',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './Header': './src/components/Header',
       },
       shared: {
         react: { singleton: true, requiredVersion: '^18.2.0' },
